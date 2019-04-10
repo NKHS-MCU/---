@@ -1,0 +1,89 @@
+﻿#include <Keypad.h>
+#include "SevSeg.h"
+SevSeg sevseg;
+char key, key1, key2;
+int x = 0;
+const byte ROWS = 4; 
+const byte COLS = 4; 
+char keys[ROWS][COLS] = {
+  {'F', 'E', 'D', 'C'}, {'B', '3', '6', '9'},
+  {'A', '2', '5', '8'}, {'0', '1', '4', '7'}
+};
+byte rowPins[ROWS] = {5, 4, 3, 2};
+byte colPins[COLS] = {10, 9, 8, 7};
+Keypad keypad =
+  Keypad( makeKeymap(keys), rowPins,
+          colPins, ROWS, COLS );
+void setup() {
+  Serial.begin(9600);
+}
+void loop() {
+  for (;;)
+  {
+    key = keypad.getKey();
+    if (key != NO_KEY)
+    {
+      if (key >= '1' && key <= '9')
+      {
+        Serial.print("The first number is:");
+        Serial.println(key);
+        break;
+      }
+    }
+  }
+  for (;;)
+  {
+    key1 = keypad.getKey();
+    if (key1 != NO_KEY) {
+      if (key1 >= '1' && key1 <= '9') {
+        Serial.print("The second number is:");
+        Serial.println(key1);
+        break;
+      }
+    }
+  }
+  for (;;)
+  {
+    key2 = keypad.getKey();
+    x = 0;
+    if (key2 != NO_KEY)
+    {
+      if (key2 == 'A')
+      {
+        Serial.print("The operation is:");
+        Serial.println("+");
+        x = (key - '0') + (key1 - '0');
+        Serial.print("The result is:");
+        Serial.println(x);
+        break;
+      }
+      if (key2 == 'B')
+      {
+        Serial.print("The operation is:");
+        Serial.println("-");
+        x = (key - '0') - (key1 - '0');
+        Serial.print("The result is:");
+        Serial.println(x);
+        break;
+      }
+      if (key2 == 'C')
+      {
+        Serial.print("The operation is:");
+        Serial.println("*");
+        x = (key - '0') * (key1 - '0');
+        Serial.print("The result is:");
+        Serial.println(x);
+        break;
+      }
+      if (key2 == 'D')
+      {
+        Serial.print("The operation is:");
+        Serial.println("/");
+        x = (key - '0') / (key1 - '0');
+        Serial.print("The result is:");
+        Serial.println(x);
+        break;
+      }
+    }
+  }
+}
